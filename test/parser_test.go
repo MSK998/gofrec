@@ -121,8 +121,6 @@ func TestMapper(t *testing.T) {
 	lineId := line[0:3]
 	recordType := identifiersMap[lineId]
 	typeVal := reflect.New(recordType)
-	// recordValue := reflect.ValueOf(reflect.New(reflect.TypeOf(&T1{}))).Elem()
-	// rT := recordValue.Type()
 
 	pos := 0
 	for i := 0; i < recordType.NumField(); i++ {
@@ -134,11 +132,8 @@ func TestMapper(t *testing.T) {
 		propertyLength, ok := recordType.Field(i).Tag.Lookup("Length")
 		if ok {
 			propertyLengthInt, _ := strconv.Atoi(propertyLength)
-			//val := reflect.ValueOf(line[(pos):(pos + propertyLengthInt)])
 			typeVal.Elem().Field(i).SetString(line[(pos):(pos + propertyLengthInt)])
 
-			//typeVal.Elem().Field(i)
-			//println(val.String())
 			pos += (propertyLengthInt)
 		} else {
 			fmt.Printf("Length tag doesn't exist on type %q:%q",
@@ -146,7 +141,4 @@ func TestMapper(t *testing.T) {
 				recordType.Field(i).Name)
 		}
 	}
-
-	//finalRecord := typeVal.Elem().Interface()
-
 }
