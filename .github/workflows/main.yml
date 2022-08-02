@@ -17,9 +17,6 @@ jobs:
       uses: PaulHatch/semantic-version@v5.0.0-alpha2
       with:
         branch: main
-        
-    - name: Echo semver
-      run: 'echo ${{steps.semver.outputs.version_tag}}'
             
     - name: Create Release
       uses: actions/create-release@latest
