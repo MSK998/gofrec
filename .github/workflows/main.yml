@@ -11,7 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        fetch_depth: 0
+      
     - name: Git Semantic Version
       id: semver
       uses: PaulHatch/semantic-version@v5.0.0-alpha2
