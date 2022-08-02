@@ -18,16 +18,8 @@ jobs:
       with:
         branch: main
         
-    - name: Create Tag
-      uses: actions/github-script@v6.1.0
-      with:
-        script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: ${{steps.semver.outputs.version_tag}},
-              sha: context.sha
-            })
+    - name: Echo semver
+      run: 'echo ${{steps.semver.outputs.version_tag}}'
             
     - name: Create Release
       uses: actions/create-release@latest
