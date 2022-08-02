@@ -13,7 +13,7 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
       with:
-        fetch_depth: 0
+        fetch-depth: 0
       
     - name: Git Semantic Version
       id: semver
