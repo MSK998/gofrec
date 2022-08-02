@@ -1,0 +1,42 @@
+name: Create Tag & Release
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  tag_release:
+    name: Create Tag and Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+    - name: Git Semantic Version
+      id: semver
+      uses: PaulHatch/semantic-version@v5.0.0-alpha2
+      with:
+        branch: main
+        
+    - name: Create Tag
+      uses: actions/github-script@v6.1.0
+      with:
+        script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: ${{steps.semver.outputs.version_tag}},
+              sha: context.sha
+            })
+            
+    - name: Create Release
+      uses: actions/create-release@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{steps.semver.outputs.version_tag}}
+        release_name: ${{steps.semver.outputs.version_tag}}
+        draft: false
+        prerelease: false
+      
+    
