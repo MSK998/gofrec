@@ -66,7 +66,7 @@ func (p *Parser) MapLine(line string) (interface{}, error) {
 		if _, ok := recordType.Field(i).Tag.Lookup("Ignore"); ok == true {
 			continue
 		}
-		
+
 		propertyLength, ok := recordType.Field(i).Tag.Lookup("Length")
 		if ok {
 			propertyLengthInt, _ := strconv.Atoi(propertyLength)
@@ -81,4 +81,24 @@ func (p *Parser) MapLine(line string) (interface{}, error) {
 		// }
 	}
 	return interface{}(recordValue.Elem().Interface()), nil
+}
+
+func (p *Parser)Parse()(int, error){
+	if len(p.RecordTypes) > 0 && len(p.IdentifierMap) == 0 {
+		p.MapIdentifiers()
+	} else {
+		return 0, errors.New("No record types to parse, please supply an array/slice of structs to parse")
+	}
+
+	totalRecords := 0
+	for i, v := range p.Lines {
+		rec, err := p.MapLine(v)
+		if err != nil {
+			return i, err
+		}
+		p.Records = append(p.Records, rec)
+		totalRecords++
+	}
+
+	return totalRecords, nil
 }

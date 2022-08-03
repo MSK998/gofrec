@@ -15,7 +15,9 @@ type T1 struct {
 }
 
 type T2 struct {
-	Prop1 string `Identifier:"002" Length:"3"`
+	ID string `Identifier:"002" Length:"3"`
+	Name string `Length:"8"`
+	
 }
 
 func TestBytesToLines(t *testing.T) {
@@ -97,6 +99,24 @@ func TestMapLine(t *testing.T) {
 	for i := 0; i < s.NumField(); i++ {
 		t.Log(s.Field(i).String())
 	}
+}
+
+func TestParse(t *testing.T) {
+	recordTypes := []interface{}{
+		T1{},
+		T2{},
+	}
+
+	par := gofrec.Parser{
+		RecordTypes: recordTypes,
+		IdStart:     0,
+		IdEnd:       3,
+	}
+
+	par.BytesToLines([]byte("001BLAHBLAH1234567890\n002FOO BAR 1234567890"))
+	par.Parse()
+
+	t.Log(len(par.Records))
 }
 
 func TestMapper(t *testing.T) {
