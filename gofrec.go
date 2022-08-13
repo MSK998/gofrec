@@ -37,7 +37,7 @@ func (p *Parser) BytesToLines(fileContents []byte) (int, error) {
 
 func (p *Parser) MapIdentifiers() (int, error) {
 	if len(p.RecordTypes) == 0 {
-		return 0, errors.New("No Record Structs to Map")
+		return 0, errors.New("no record structs to map")
 	}
 
 	identifiersMap := make(map[string]reflect.Type)
@@ -63,7 +63,7 @@ func (p *Parser) MapLine(line string) (interface{}, error) {
 
 	pos := 0
 	for i := 0; i < recordType.NumField(); i++ {
-		if _, ok := recordType.Field(i).Tag.Lookup("Ignore"); ok == true {
+		if _, ok := recordType.Field(i).Tag.Lookup("Ignore"); ok {
 			continue
 		}
 
@@ -87,7 +87,7 @@ func (p *Parser)Parse()(int, error){
 	if len(p.RecordTypes) > 0 && len(p.IdentifierMap) == 0 {
 		p.MapIdentifiers()
 	} else {
-		return 0, errors.New("No record types to parse, please supply an array/slice of structs to parse")
+		return 0, errors.New("no record types to parse, please supply an array/slice of structs to parse")
 	}
 
 	totalRecords := 0
