@@ -71,15 +71,17 @@ func (p *Parser) MapLine(line string) (interface{}, error) {
 		if ok {
 			propertyLengthInt, _ := strconv.Atoi(propertyLength)
 			data := line[(pos):(pos + propertyLengthInt)]
-			DynamicType(recordType, i, &recordValue, data)
-			//recordValue.Elem().Field(i).SetString(line[(pos):(pos + propertyLengthInt)])
+			err := DynamicType(recordType, i, &recordValue, data)
+			if err != nil {
+				return nil, err
+			}
 			pos += (propertyLengthInt)
 		}
 	}
 	return interface{}(recordValue.Elem().Interface()), nil
 }
 
-func (p *Parser)Parse()(int, error){
+func (p *Parser) Parse() (int, error) {
 	if len(p.RecordTypes) > 0 && len(p.IdentifierMap) == 0 {
 		p.MapIdentifiers()
 	} else {
