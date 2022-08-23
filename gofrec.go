@@ -70,20 +70,18 @@ func (p *Parser) MapLine(line string) (interface{}, error) {
 		propertyLength, ok := recordType.Field(i).Tag.Lookup("Length")
 		if ok {
 			propertyLengthInt, _ := strconv.Atoi(propertyLength)
-			recordValue.Elem().Field(i).SetString(line[(pos):(pos + propertyLengthInt)])
+			data := line[(pos):(pos + propertyLengthInt)]
+			err := DynamicType(recordType, i, &recordValue, data)
+			if err != nil {
+				return nil, err
+			}
 			pos += (propertyLengthInt)
-		} 
-		// else {
-		// 	return nil, errors.New(
-		// 		fmt.Sprintf("Length tag doesn't exist on type %q:%q",
-		// 			recordType.String(),
-		// 			recordType.Field(i).Name))
-		// }
+		}
 	}
 	return interface{}(recordValue.Elem().Interface()), nil
 }
 
-func (p *Parser)Parse()(int, error){
+func (p *Parser) Parse() (int, error) {
 	if len(p.RecordTypes) > 0 && len(p.IdentifierMap) == 0 {
 		p.MapIdentifiers()
 	} else {
