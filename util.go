@@ -17,6 +17,7 @@ func DynamicType(t reflect.Type, fieldIndex int, v *reflect.Value, data string) 
 		cVal, _ := strconv.Atoi(data)
 		v.Elem().Field(fieldIndex).SetInt(int64(cVal))
 		return nil
+	// TODO: Make sure to add other primitive types
 	default:
 		return errors.New("can't convert type")
 	}
