@@ -8,10 +8,6 @@ import (
 	"strings"
 )
 
-type IParser interface {
-	Parse() []interface{}
-}
-
 type Parser struct {
 	RecordTypes   []interface{}
 	Records       []interface{}
