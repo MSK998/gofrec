@@ -12,6 +12,7 @@ type IParser interface {
 	Parse() []interface{}
 }
 
+// Parser struct that contains all of the required fields to parse files
 type Parser struct {
 	RecordTypes   []interface{}
 	Records       []interface{}
@@ -21,6 +22,7 @@ type Parser struct {
 	IdEnd         int
 }
 
+// Converts a slice of raw bytes to individual lines of type string
 func (p *Parser) BytesToLines(fileContents []byte) (int, error) {
 	var sb strings.Builder
 
@@ -35,6 +37,7 @@ func (p *Parser) BytesToLines(fileContents []byte) (int, error) {
 	return len(p.Lines), nil
 }
 
+// Will create a map that contains the identifier string and associated type
 func (p *Parser) MapIdentifiers() (int, error) {
 	if len(p.RecordTypes) == 0 {
 		return 0, errors.New("no record structs to map")
@@ -56,6 +59,7 @@ func (p *Parser) MapIdentifiers() (int, error) {
 	return len(identifiersMap), nil
 }
 
+// Maps an individual line to a record type 
 func (p *Parser) MapLine(line string) (interface{}, error) {
 	lineId := line[p.IdStart:p.IdEnd]
 	recordType := p.IdentifierMap[lineId]
@@ -81,6 +85,7 @@ func (p *Parser) MapLine(line string) (interface{}, error) {
 	return interface{}(recordValue.Elem().Interface()), nil
 }
 
+// loops through all lines and assigns a type to each one.
 func (p *Parser) Parse() (int, error) {
 	if len(p.RecordTypes) > 0 && len(p.IdentifierMap) == 0 {
 		p.MapIdentifiers()

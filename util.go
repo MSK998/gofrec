@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// Will try to decide on which type the field should be
 func DynamicType(t reflect.Type, fieldIndex int, v *reflect.Value, data string) error {
 
 	switch t.Field(fieldIndex).Type.String() {
