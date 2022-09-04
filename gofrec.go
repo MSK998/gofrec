@@ -8,10 +8,6 @@ import (
 	"strings"
 )
 
-type IParser interface {
-	Parse() []interface{}
-}
-
 // Parser struct that contains all of the required fields to parse files
 type Parser struct {
 	RecordTypes   []interface{}
