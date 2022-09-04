@@ -23,6 +23,7 @@ type T3 struct {
 	Prop1 string `Identifier:"001" Length:"3"`
 	Prop2 string `Length:"8"`
 	Prop3 int    `Length:"10"`
+	Prop4 bool   `Length:"1"`
 }
 
 func TestBytesToLines(t *testing.T) {
@@ -129,10 +130,11 @@ func TestDynamicType(t *testing.T) {
 	reflectValue := reflect.New(reflectType)
 
 	for i := 0; i < reflectType.NumField(); i++ {
-		gofrec.DynamicType(reflectType, i, &reflectValue, "123")
+		gofrec.DynamicType(reflectType, i, &reflectValue, "1")
 		t.Log(reflectType.Field(i).Type, i)
 	}
 }
+
 func TestMapper(t *testing.T) {
 	identifiersMap := make(map[string]reflect.Type)
 

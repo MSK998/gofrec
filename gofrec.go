@@ -85,7 +85,7 @@ func (p *Parser) MapLine(line string) (interface{}, error) {
 	return interface{}(recordValue.Elem().Interface()), nil
 }
 
-// loops through all lines and assigns a type to each one.
+// Loops through all lines and assigns a type to each one.
 func (p *Parser) Parse() (int, error) {
 	if len(p.RecordTypes) > 0 && len(p.IdentifierMap) == 0 {
 		p.MapIdentifiers()
