@@ -2,7 +2,7 @@ package parser_test
 
 import (
 	"fmt"
-	"gofrec"
+	"github.com/MSK998/gofrec"
 	"reflect"
 	"strconv"
 	"testing"

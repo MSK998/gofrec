@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gofrec"
+	"github.com/MSK998/gofrec"
 	"os"
 )
 
